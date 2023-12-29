@@ -1,4 +1,5 @@
 #include <iostream>
+#include "canvasfunc.h"
 using namespace std;
 class canvas
 {
@@ -18,6 +19,7 @@ public:
             this->data[i] = new char[width];
         }
     }
+    set();
     ~canvas()
     {
         for (int i = 0; i < height; ++i)

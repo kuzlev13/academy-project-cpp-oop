@@ -57,7 +57,7 @@ public:
             }
         }
     }
-    void drawCircle(int x0, int y0, int radius, char sign)
+    void setCircle(int x0, int y0, int radius, char sign)
     {
         int x = 0;
         int y = radius;

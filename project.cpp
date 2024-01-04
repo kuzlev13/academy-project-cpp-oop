@@ -8,7 +8,7 @@ private:
     int height;
 
 public:
-    void set(int x, int y, char sign)
+    void setDot(int x, int y, char sign)
     {
         if (x < this->width && y < this->height)
         {
@@ -33,6 +33,16 @@ public:
             cout << "\n";
         }
     }
+    void Clear()
+    {
+        for (int i = 0; i < this->height; i++)
+        {
+            for (int j = 0; j < this->width; j++)
+            {
+                this->data[i][j] = ' ';
+            }
+        }
+    }
     void setLine(int x1, int y1, int x2, int y2, char sign)
     {
         const int deltaX = abs(x2 - x1);
@@ -40,10 +50,10 @@ public:
         const int signX = (x1 < x2) ? 1 : -1;
         const int signY = (y1 < y2) ? 1 : -1;
         int error = deltaX - deltaY;
-        set(x2, y2, sign);
+        setDot(x2, y2, sign);
         while (x1 != x2 || y1 != y2)
         {
-            set(x1, y1, sign);
+            setDot(x1, y1, sign);
             int error2 = error * 2;
             if (error2 > -deltaY)
             {
@@ -65,10 +75,10 @@ public:
         int error = 0;
         while (y >= 0)
         {
-            set(x0 + x, y0 + y, sign);
-            set(x0 + x, y0 - y, sign);
-            set(x0 - x, y0 + y, sign);
-            set(x0 - x, y0 - y, sign);
+            setDot(x0 + x, y0 + y, sign);
+            setDot(x0 + x, y0 - y, sign);
+            setDot(x0 - x, y0 + y, sign);
+            setDot(x0 - x, y0 - y, sign);
             error = 2 * (delta + y) - 1;
             if (delta < 0 && error <= 0)
             {
@@ -114,13 +124,41 @@ int main()
     cout << "Please, enter the width and height by space: ";
     cin >> width >> height;
     canvas current_canvas(width, height);
-    int x, y;
+    int x0, y0, x1, y1, input, radius;
     char sign;
     while (true)
     {
-        cin >> x >> y >> sign;
-        current_canvas.set(x, y, sign);
-        current_canvas.print();
+        cout << "Choose function:\n0.Print\n1.Dot\n2.Line\n4.Circle\n5.Clear\n: ";
+        cin >> input;
+        switch (input)
+        {
+        case 0:
+            current_canvas.print();
+            break;
+        case 1:
+            cout << "Enter the coordinate of the dot and sign by space\n";
+            cin >> x0 >> y0 >> sign;
+            current_canvas.setDot(x0, y0, sign);
+            break;
+        case 2:
+            cout << "Enter the coordinate of the 1st dot by space\n";
+            cin >> x0 >> y0;
+            cout << "Enter the coordinate of the 2nd dot and sign by space\n";
+            cin >> x1 >> y1 >> sign;
+            current_canvas.setLine(x0, y0, x1, y1, sign);
+            break;
+        case 3:
+            cout << "Portal 3 won't be released\n" << endl;
+            break;
+        case 4:
+            cout << "Enter the coordinate of the center, radius and sign by space\n";
+            cin >> x0 >> y0 >> radius >> sign;
+            current_canvas.setCircle(x0, y0, radius, sign);
+            break;
+        case 5:
+            current_canvas.Clear();
+            break;
+        }
     }
 
     return 0;

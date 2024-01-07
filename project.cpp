@@ -98,6 +98,158 @@ public:
             --y;
         }
     }
+    void fill(int x0, int y0, char sign)
+    {
+        char based_sign = this->data[y0][x0];
+
+        if (x0 == 0 && y0 == 0)
+        {
+            if (this->data[y0][x0 + 1] == based_sign)
+            {
+                setDot(x0, y0, sign);
+                fill(x0 + 1, y0, sign);
+            }
+            if (this->data[y0 + 1][x0] == based_sign)
+            {
+                setDot(x0, y0, sign);
+                fill(x0, y0 + 1, sign);
+            }
+        }
+        else if (x0 == (this->width - 1) && y0 == (this->height - 1))
+        {
+            if (this->data[y0][x0 - 1] == based_sign)
+            {
+                setDot(x0, y0, sign);
+                fill(x0 - 1, y0, sign);
+            }
+            if (this->data[y0 - 1][x0] == based_sign)
+            {
+                setDot(x0, y0, sign);
+                fill(x0, y0 - 1, sign);
+            }
+        }
+        else if (x0 == 0 && y0 == (this->height - 1))
+        {
+            if (this->data[y0][x0 + 1] == based_sign)
+            {
+                setDot(x0, y0, sign);
+                fill(x0 + 1, y0, sign);
+            }
+            if (this->data[y0 - 1][x0] == based_sign)
+            {
+                setDot(x0, y0, sign);
+                fill(x0, y0 - 1, sign);
+            }
+        }
+        else if (x0 == (this->width - 1) && y0 == 0)
+        {
+            if (this->data[y0 + 1][x0] == based_sign)
+            {
+                setDot(x0, y0, sign);
+                fill(x0, y0 + 1, sign);
+            }
+            if (this->data[y0][x0 - 1] == based_sign)
+            {
+                setDot(x0, y0, sign);
+                fill(x0 - 1, y0, sign);
+            }
+        }
+        else if (x0 == 0)
+        {
+            if (this->data[y0][x0 + 1] == based_sign)
+            {
+                setDot(x0, y0, sign);
+                fill(x0 + 1, y0, sign);
+            }
+            if (this->data[y0 + 1][x0] == based_sign)
+            {
+                setDot(x0, y0, sign);
+                fill(x0, y0 + 1, sign);
+            }
+            if (this->data[y0 - 1][x0] == based_sign)
+            {
+                setDot(x0, y0, sign);
+                fill(x0, y0 - 1, sign);
+            }
+        }
+        else if (y0 == 0)
+        {
+            if (this->data[y0][x0 + 1] == based_sign)
+            {
+                setDot(x0, y0, sign);
+                fill(x0 + 1, y0, sign);
+            }
+            if (this->data[y0 + 1][x0] == based_sign)
+            {
+                setDot(x0, y0, sign);
+                fill(x0, y0 + 1, sign);
+            }
+            if (this->data[y0][x0 - 1] == based_sign)
+            {
+                setDot(x0, y0, sign);
+                fill(x0 - 1, y0, sign);
+            }
+        }
+        else if (x0 == (this->width - 1))
+        {
+            if (this->data[y0 + 1][x0] == based_sign)
+            {
+                setDot(x0, y0, sign);
+                fill(x0, y0 + 1, sign);
+            }
+            if (this->data[y0][x0 - 1] == based_sign)
+            {
+                setDot(x0, y0, sign);
+                fill(x0 - 1, y0, sign);
+            }
+            if (this->data[y0 - 1][x0] == based_sign)
+            {
+                setDot(x0, y0, sign);
+                fill(x0, y0 - 1, sign);
+            }
+        }
+        else if (y0 == (this->height - 1))
+        {
+            if (this->data[y0][x0 + 1] == based_sign)
+            {
+                setDot(x0, y0, sign);
+                fill(x0 + 1, y0, sign);
+            }
+            if (this->data[y0][x0 - 1] == based_sign)
+            {
+                setDot(x0, y0, sign);
+                fill(x0 - 1, y0, sign);
+            }
+            if (this->data[y0 - 1][x0] == based_sign)
+            {
+                setDot(x0, y0, sign);
+                fill(x0, y0 - 1, sign);
+            }
+        }
+        else
+        {
+            if (this->data[y0][x0 + 1] == based_sign)
+            {
+                setDot(x0, y0, sign);
+                fill(x0 + 1, y0, sign);
+            }
+            if (this->data[y0 + 1][x0] == based_sign)
+            {
+                setDot(x0, y0, sign);
+                fill(x0, y0 + 1, sign);
+            }
+            if (this->data[y0][x0 - 1] == based_sign)
+            {
+                setDot(x0, y0, sign);
+                fill(x0 - 1, y0, sign);
+            }
+            if (this->data[y0 - 1][x0] == based_sign)
+            {
+                setDot(x0, y0, sign);
+                fill(x0, y0 - 1, sign);
+            }
+        }
+    }
 
     canvas(int width, int height)
     {
@@ -128,7 +280,7 @@ int main()
     char sign;
     while (true)
     {
-        cout << "Choose function:\n0.Print\n1.Dot\n2.Line\n4.Circle\n5.Clear\n: ";
+        cout << "Choose function:\n0.Print\n1.Dot\n2.Line\n4.Circle\n5.Clear\n6.Fill\n: ";
         cin >> input;
         switch (input)
         {
@@ -148,7 +300,8 @@ int main()
             current_canvas.setLine(x0, y0, x1, y1, sign);
             break;
         case 3:
-            cout << "Portal 3 won't be released\n" << endl;
+            cout << "Portal 3 won't be released\n"
+                 << endl;
             break;
         case 4:
             cout << "Enter the coordinate of the center, radius and sign by space\n";
@@ -157,6 +310,11 @@ int main()
             break;
         case 5:
             current_canvas.Clear();
+            break;
+        case 6:
+            cout << "Enter the coordinate of the dot-fill and sign by space\n";
+            cin >> x0 >> y0 >> sign;
+            current_canvas.fill(x0, y0, sign);
             break;
         }
     }

@@ -1,13 +1,94 @@
 #include <iostream>
+#include <string>
+#include <fstream>
+#include <vector>
+
 using namespace std;
+
+class OPEN {
+    string name;
+public :
+    OPEN(string _name) {
+        this->name = _name;
+    }
+
+    void open(){
+        string file = name + ".txt";
+        char ch;
+        fstream fin;
+        fin.open(file);
+        if (!fin.is_open()) {
+            cout << "ERROR";
+        }
+        else {
+            char g;
+            cout << "TRUE";
+
+            while (fin.get(g)) {
+                
+            }
+        }
+        fin.close();
+    }
+    
+};
+
+class NEW {
+    string name;
+    int height;
+    int width;
+    char** data;
+public:
+    NEW(string name, int height,int width) {
+        this->name = name;
+        this->height = height;
+        this->width = width;
+    }
+    void save(char** data) {
+        this->height= height;
+        this->width= width;
+        this->data = data;
+        //cout << file;
+        ofstream MyFile(name + ".txt");
+        MyFile << width << "\n";
+        MyFile << height << "\n";
+        for (int i = 0; i < this->height; i++)
+        {
+            for (int j = 0; j < this->width; j++)
+            {
+                if (this->data[i][j])
+                {
+                    MyFile << this->data[i][j];
+                }
+                else
+                {
+                    MyFile << ' ';
+                }
+            }
+            MyFile << "\n";
+        }
+        MyFile.close();
+    }
+    void create() {
+        string file = name + ".txt";
+        //cout << file;
+        ofstream MyFile(file);
+    }
+};
+
+
 class canvas
 {
 private:
-    char **data;
+    char** data;
     int width;
     int height;
 
 public:
+    void save(string name) {
+        NEW ne{ name,height,width };
+        ne.save(data);
+    }
     void setDot(int x, int y, char sign)
     {
         if (x < this->width && y < this->height)
@@ -255,7 +336,7 @@ public:
     {
         this->height = height;
         this->width = width;
-        this->data = new char *[height];
+        this->data = new char* [height];
         for (int i = 0; i < height; i++)
         {
             this->data[i] = new char[width];
@@ -270,52 +351,96 @@ public:
         delete[] this->data;
     }
 };
+
 int main()
 {
-    int height, width;
-    cout << "Please, enter the width and height by space: ";
-    cin >> width >> height;
-    canvas current_canvas(width, height);
-    int x0, y0, x1, y1, input, radius;
-    char sign;
-    while (true)
-    {
-        cout << "Choose function:\n0.Print\n1.Dot\n2.Line\n4.Circle\n5.Clear\n6.Fill\n: ";
-        cin >> input;
-        switch (input)
+    int height, width, action;
+    string name;
+    cout << "0 - open project\n1 - new project\n";
+    cout << "Please choose an action:";
+    cin >> action;
+    if (action == 0) {
+        cout << "Please enter project name :";
+        cin >> name;
+        OPEN op{ name };
+        op.open();
+    }
+    else if(action == 1){
+        cout << "Please enter name for new project :";
+        cin >> name;
+        cout << "Please, enter the width and height by space: ";
+        cin >> width >> height;
+        NEW ne{ name,height,width };
+        ne.create();
+        canvas current_canvas(width, height);
+        int x0, y0, x1, y1, input, radius;
+        char sign;
+        current_canvas.Clear();
+        while (true)
         {
-        case 0:
-            current_canvas.print();
-            break;
-        case 1:
-            cout << "Enter the coordinate of the dot and sign by space\n";
-            cin >> x0 >> y0 >> sign;
-            current_canvas.setDot(x0, y0, sign);
-            break;
-        case 2:
-            cout << "Enter the coordinate of the 1st dot by space\n";
-            cin >> x0 >> y0;
-            cout << "Enter the coordinate of the 2nd dot and sign by space\n";
-            cin >> x1 >> y1 >> sign;
-            current_canvas.setLine(x0, y0, x1, y1, sign);
-            break;
-        case 3:
-            cout << "Portal 3 won't be released\n"
-                 << endl;
-            break;
-        case 4:
-            cout << "Enter the coordinate of the center, radius and sign by space\n";
-            cin >> x0 >> y0 >> radius >> sign;
-            current_canvas.setCircle(x0, y0, radius, sign);
-            break;
-        case 5:
-            current_canvas.Clear();
-            break;
-        case 6:
-            cout << "Enter the coordinate of the dot-fill and sign by space\n";
-            cin >> x0 >> y0 >> sign;
-            current_canvas.fill(x0, y0, sign);
-            break;
+            cout << "Choose function:\n0.Print\n1.Dot\n2.Line\n4.Circle\n5.Clear\n6.Fill\n7.Save\n: ";
+            cin >> input;
+            switch (input)
+            {
+            case 0:
+                //system("cls");
+                current_canvas.print();
+                break;
+            case 1:
+                cout << "Enter the coordinate of the dot and sign by space\n";
+                cin >> x0 >> y0 >> sign;
+                current_canvas.setDot(x0, y0, sign);
+                break;
+            case 2:
+                cout << "Enter the coordinate of the 1st dot by space\n";
+                cin >> x0 >> y0;
+                cout << "Enter the coordinate of the 2nd dot and sign by space\n";
+                cin >> x1 >> y1 >> sign;
+                current_canvas.setLine(x0, y0, x1, y1, sign);
+                break;
+            case 3:
+                cout << "Portal 3 won't be released\n"
+                    << endl;
+                break;
+            case 4:
+                cout << "Enter the coordinate of the center, radius and sign by space\n";
+                cin >> x0 >> y0 >> radius >> sign;
+                current_canvas.setCircle(x0, y0, radius, sign);
+                break;
+            case 5:
+                current_canvas.Clear();
+                break;
+            case 6:
+                cout << "Enter the coordinate of the dot-fill and sign by space\n";
+                cin >> x0 >> y0 >> sign;
+                current_canvas.fill(x0, y0, sign);
+                break;
+            
+            case 7:
+                current_canvas.save(name);
+                break;
+            
+            case 8:
+                int what;
+                cout << "save file?(1 - yes, 2 - no) - ";
+                cin >> what;
+                int a = 0;
+                while (a == 0) {
+                    if (what == 1) {
+                        current_canvas.save(name);
+                        return 0;
+                    }
+                    else if (what == 2) {
+                        return 0;
+                    }
+                    else {
+                        cout << "error";
+                        cout << "\nsave file?(1 - yes, 2 - no) - ";
+                        cin >> what;
+                    }
+                }
+                break;
+            }
         }
     }
 

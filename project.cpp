@@ -352,7 +352,7 @@ public:
         }
         else {
 
-            cout << "TRUE";
+            cout << "TRUE\n";
 
             while (getline(fin, s)) { // пока не достигнут конец файла класть очередную строку в переменную (s)
                 if (iriski == 0) {
@@ -360,23 +360,23 @@ public:
                     istringstream(s) >> width;
                 }
                 else if (iriski == 1) {
-                    cout << s;
+                    //cout << s;
                     //int(s);
                     istringstream(s) >> height;
                     break;
                 }
                 iriski++;
             }
+            iriski--;
+            //cout << iriski << "\n";
             canvas new_canvas(width, height);
             while (getline(fin, s1)) { 
-                if (iriski >= 0) {
-                    int r = size(s1);
-                    cout << r << "\n";
-                    for (int i = 0; i < r; i++) {
-                        g = s1.at(i);
-                        //cout << "\n" << s1;
-                        new_canvas.setDot(i, iriski, g);
-                    }
+                int r = size(s1);
+                //cout << r << "\n";
+                for (int i = 0; i < r; i++) {
+                    g = s1.at(i);
+                    //cout << "\n" << s1;
+                    new_canvas.setDot(i, iriski, g);
                 }
                 iriski++;
             }

@@ -2,36 +2,12 @@
 #include <string>
 #include <fstream>
 #include <vector>
+#include <sstream>
+#include <Windows.h>
 
 using namespace std;
 
-class OPEN {
-    string name;
-public :
-    OPEN(string _name) {
-        this->name = _name;
-    }
 
-    void open(){
-        string file = name + ".txt";
-        char ch;
-        fstream fin;
-        fin.open(file);
-        if (!fin.is_open()) {
-            cout << "ERROR";
-        }
-        else {
-            char g;
-            cout << "TRUE";
-
-            while (fin.get(g)) {
-                
-            }
-        }
-        fin.close();
-    }
-    
-};
 
 class NEW {
     string name;
@@ -39,14 +15,14 @@ class NEW {
     int width;
     char** data;
 public:
-    NEW(string name, int height,int width) {
+    NEW(string name, int height, int width) {
         this->name = name;
         this->height = height;
         this->width = width;
     }
     void save(char** data) {
-        this->height= height;
-        this->width= width;
+        this->height = height;
+        this->width = width;
         this->data = data;
         //cout << file;
         ofstream MyFile(name + ".txt");
@@ -352,8 +328,78 @@ public:
     }
 };
 
+class OPEN {
+    string s;
+    string s1;
+    string name;
+    int width;
+    int height;
+    char g;
+    int iriski = 0;
+public:
+    OPEN(string _name, string s) {
+        this->name = _name;
+        this->s = s;
+    }
+
+    void open() {
+        string file = name + ".txt";
+        char ch;
+        fstream fin;
+        fin.open(file);
+        if (!fin.is_open()) {
+            cout << "ERROR";
+        }
+        else {
+
+            cout << "TRUE";
+
+            while (getline(fin, s)) { // пока не достигнут конец файла класть очередную строку в переменную (s)
+                if (iriski == 0) {
+                    //cout << s;
+                    istringstream(s) >> width;
+                }
+                else if (iriski == 1) {
+                    cout << s;
+                    //int(s);
+                    istringstream(s) >> height;
+                    break;
+                }
+                iriski++;
+            }
+            canvas new_canvas(width, height);
+            while (getline(fin, s1)) { 
+                if (iriski >= 0) {
+                    int r = size(s1);
+                    cout << r << "\n";
+                    for (int i = 0; i < r; i++) {
+                        g = s1.at(i);
+                        //cout << "\n" << s1;
+                        new_canvas.setDot(i, iriski, g);
+                    }
+                }
+                iriski++;
+            }
+            new_canvas.print();
+        }
+
+        fin.close();
+        
+        
+    }
+    int GETwidth() {
+        return width;
+
+    }
+    int GETheight() {
+        return height;
+    }
+
+};
+
 int main()
 {
+    string s;
     int height, width, action;
     string name;
     cout << "0 - open project\n1 - new project\n";
@@ -362,10 +408,10 @@ int main()
     if (action == 0) {
         cout << "Please enter project name :";
         cin >> name;
-        OPEN op{ name };
+        OPEN op{ name,s };
         op.open();
     }
-    else if(action == 1){
+    else if (action == 1) {
         cout << "Please enter name for new project :";
         cin >> name;
         cout << "Please, enter the width and height by space: ";
@@ -415,11 +461,11 @@ int main()
                 cin >> x0 >> y0 >> sign;
                 current_canvas.fill(x0, y0, sign);
                 break;
-            
+
             case 7:
                 current_canvas.save(name);
                 break;
-            
+
             case 8:
                 int what;
                 cout << "save file?(1 - yes, 2 - no) - ";
@@ -443,6 +489,5 @@ int main()
             }
         }
     }
-
     return 0;
 }

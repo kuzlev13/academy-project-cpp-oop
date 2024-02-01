@@ -3,10 +3,8 @@
 #include <fstream>
 #include <vector>
 #include <sstream>
-#include <Windows.h>
 
 using namespace std;
-
 
 
 class NEW {
@@ -342,7 +340,7 @@ public:
         this->s = s;
     }
 
-    void open() {
+    int open() {
         string file = name + ".txt";
         char ch;
         fstream fin;
@@ -380,7 +378,101 @@ public:
                 }
                 iriski++;
             }
+            int x0, y0, x1, y1, input, radius, a, b, c, d, a0, b0, c0, d0;
             new_canvas.print();
+            cout << "\n\n";
+            while (true)
+            {
+                cout << "Choose function:\n0.Print\n1.Dot\n2.Line\n4.Circle\n5.Clear\n6.Fill\n7.Quadrilateral\n8.Triangle\n9.Save\n10.Exit\n: ";
+                cin >> input;
+                switch (input)
+                {
+                case 0:
+                    //system("cls");
+                    new_canvas.print();
+                    break;
+                case 1:
+                    cout << "Enter the coordinate of the dot and sign by space\n";
+                    cin >> x0 >> y0 >> g;
+                    new_canvas.setDot(x0, y0, g);
+                    break;
+                case 2:
+                    cout << "Enter the coordinate of the 1st dot by space\n";
+                    cin >> x0 >> y0;
+                    cout << "Enter the coordinate of the 2nd dot and sign by space\n";
+                    cin >> x1 >> y1 >> g;
+                    new_canvas.setLine(x0, y0, x1, y1, g);
+                    break;
+                case 3:
+                    cout << "Portal 3 won't be released\n"
+                        << endl;
+                    break;
+                case 4:
+                    cout << "Enter the coordinate of the center, radius and sign by space\n";
+                    cin >> x0 >> y0 >> radius >> g;
+                    new_canvas.setCircle(x0, y0, radius, g);
+                    break;
+                case 5:
+                    new_canvas.Clear();
+                    break;
+                case 6:
+                    cout << "Enter the coordinate of the dot-fill and sign by space\n";
+                    cin >> x0 >> y0 >> g;
+                    new_canvas.fill(x0, y0, g);
+                    break;
+
+                case 7:
+                    cout << "\nEnter the coordinate of the 1nd dot and sign by space\n";
+                    cin >> a >> a0 >> g;
+                    cout << "\nEnter the coordinate of the 2nd dot and sign by space\n";
+                    cin >> b >> b0 >> g;
+                    cout << "\nEnter the coordinate of the 3nd dot and sign by space\n";
+                    cin >> c >> c0 >> g;
+                    cout << "\nEnter the coordinate of the 4nd dot and sign by space\n";
+                    cin >> d >> d0 >> g;
+                    new_canvas.setLine(a, a0, b, b0, g);
+                    new_canvas.setLine(a, a0, c, c0, g);
+                    new_canvas.setLine(c, c0, d, d0, g);
+                    new_canvas.setLine(d, d0, b, b0, g);
+                    break;
+
+                case 8:
+                    cout << "\nEnter the coordinate of the 1nd dot and sign by space\n";
+                    cin >> a >> a0 >> g;
+                    cout << "\nEnter the coordinate of the 2nd dot and sign by space\n";
+                    cin >> b >> b0 >> g;
+                    cout << "\nEnter the coordinate of the 3nd dot and sign by space\n";
+                    cin >> c >> c0 >> g;
+                    new_canvas.setLine(a, a0, b, b0, g);
+                    new_canvas.setLine(a, a0, c, c0, g);
+                    new_canvas.setLine(c, c0, b, b0, g);
+                    break;
+
+                case 9:
+                    new_canvas.save(name);
+                    break;
+                case 10:
+                    int what;
+                    cout << "save file?(1 - yes, 2 - no) - ";
+                    cin >> what;
+                    int a = 0;
+                    while (a == 0) {
+                        if (what == 1) {
+                            new_canvas.save(name);
+                            return 0;
+                        }
+                        else if (what == 2) {
+                            return 0;
+                        }
+                        else {
+                            cout << "error";
+                            cout << "\nsave file?(1 - yes, 2 - no) - ";
+                            cin >> what;
+                        }
+                    }
+                    break;
+                }
+            }
         }
 
         fin.close();
@@ -419,12 +511,12 @@ int main()
         NEW ne{ name,height,width };
         ne.create();
         canvas current_canvas(width, height);
-        int x0, y0, x1, y1, input, radius;
+        int x0, y0, x1, y1, input, radius,a,b,c,d, a0, b0, c0, d0;
         char sign;
         current_canvas.Clear();
         while (true)
         {
-            cout << "Choose function:\n0.Print\n1.Dot\n2.Line\n4.Circle\n5.Clear\n6.Fill\n7.Save\n: ";
+            cout << "Choose function:\n0.Print\n1.Dot\n2.Line\n4.Circle\n5.Clear\n6.Fill\n7.Quadrilateral\n8.Triangle\n9.Save\n10.Exit\n: ";
             cin >> input;
             switch (input)
             {
@@ -463,10 +555,36 @@ int main()
                 break;
 
             case 7:
-                current_canvas.save(name);
+                cout << "\nEnter the coordinate of the 1nd dot and sign by space\n";
+                cin >> a >> a0 >> sign;
+                cout << "\nEnter the coordinate of the 2nd dot and sign by space\n";
+                cin >> b >> b0 >> sign;
+                cout << "\nEnter the coordinate of the 3nd dot and sign by space\n";
+                cin >> c >> c0 >> sign;
+                cout << "\nEnter the coordinate of the 4nd dot and sign by space\n";
+                cin >> d >> d0 >> sign;
+                current_canvas.setLine(a,a0,b,b0, sign);
+                current_canvas.setLine(a,a0,c,c0, sign);
+                current_canvas.setLine(c,c0,d,d0, sign);
+                current_canvas.setLine(d,d0,b,b0, sign);
                 break;
 
             case 8:
+                cout << "\nEnter the coordinate of the 1nd dot and sign by space\n";
+                cin >> a >> a0 >> sign;
+                cout << "\nEnter the coordinate of the 2nd dot and sign by space\n";
+                cin >> b >> b0 >> sign;
+                cout << "\nEnter the coordinate of the 3nd dot and sign by space\n";
+                cin >> c >> c0 >> sign;
+                current_canvas.setLine(a, a0, b, b0, sign);
+                current_canvas.setLine(a, a0, c, c0, sign);
+                current_canvas.setLine(c, c0, b, b0, sign);
+                break;
+
+            case 9:
+                current_canvas.save(name);
+                break;
+            case 10:
                 int what;
                 cout << "save file?(1 - yes, 2 - no) - ";
                 cin >> what;

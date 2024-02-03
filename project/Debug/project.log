@@ -1,0 +1,4 @@
+﻿  project.cpp
+C:\Users\artem\source\repos\project\project\project.cpp(345,14): warning C4101: ch: неиспользованная локальная переменная
+C:\Users\artem\source\repos\project\project\project.cpp(481): warning C4715: OPEN::open: значение возвращается не при всех путях выполнения
+  project.vcxproj -> C:\Users\artem\source\repos\project\Debug\project.exe
